@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Golden Route Threat Monitoring System
 
 This project implements a full-stack application for threat monitoring, as described in the "חידת נתיב הזהב" challenge. It includes:
@@ -47,3 +48,7 @@ golden_route_project/
    git push -u origin main
    \`\`\`
 4. Your project is now on GitHub.
+=======
+# Project-Riddle---Air-Force
+Drone Threat Assessment System – React/Node.js application with PostgreSQL and Docker
+>>>>>>> 6b174177cab410abe49b1a5fad80f933ea4c71eb
