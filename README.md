@@ -1,13 +1,19 @@
 <<<<<<< HEAD
 # Golden Route Threat Monitoring System
 
-This project implements a full-stack application for threat monitoring, as described in the "חידת נתיב הזהב" challenge. It includes:
+Full-stack threat monitoring solution for the “חידת נתיב הזהב” challenge:
 
-- **Front-end**: React application to input coordinates, display results, and show on map.
-- **Back-end**: Express server with Prisma ORM connected to PostgreSQL, providing calculation and data storage endpoints.
-- **Database**: PostgreSQL with Prisma schema.
-- **Dockerized**: Full setup using Docker and Docker Compose for easy deployment.
+* **Front-end (React)**
+  Intuitive interface for entering coordinates, executing calculations, and visualizing results on an interactive map.
 
+* **Back-end (Express + Prisma)**
+  Robust API layer performing trajectory analysis, persisting each operation in PostgreSQL via Prisma ORM, and exposing secure endpoints.
+
+* **Database (PostgreSQL)**
+  Well-defined Prisma schema ensuring data integrity and optimized storage.
+
+* **Containerized (Docker & Docker Compose)**
+  End-to-end Docker configuration—simply clone the repository and run `docker-compose up` to launch the entire stack without additional setup.
 ## Project Structure
 
 \`\`\`
