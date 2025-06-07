@@ -27,7 +27,7 @@ golden_route_project/
 
 ## Prerequisites
 
-- Docker and Docker Compose installed on your system.
+- Docker and Docker Compose installed on my system.
 
 ## Setup and Run
 
