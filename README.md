@@ -32,23 +32,5 @@ golden_route_project/
 5. The back-end API will be available at \`http://localhost:4000\`.
 6. Access the React app, input coordinates, calculate threat status, view on map, and save operations.
 
-## Uploading to GitHub
-
-1. Initialize a new git repository:
-   \`\`\`
-   git init
-   git add .
-   git commit -m "Initial commit"
-   \`\`\`
-2. Create a new repository on GitHub (e.g., "golden-route").
-3. Add the remote origin:
-   \`\`\`
-   git remote add origin https://github.com/YourUsername/golden-route.git
-   git branch -M main
-   git push -u origin main
-   \`\`\`
-4. Your project is now on GitHub.
-=======
-# Project-Riddle---Air-Force
-Drone Threat Assessment System – React/Node.js application with PostgreSQL and Docker
+eact/Node.js application with PostgreSQL and Docker
 >>>>>>> 6b174177cab410abe49b1a5fad80f933ea4c71eb
