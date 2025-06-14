@@ -1,13 +1,8 @@
 FROM node:18
-WORKDIR /app
-
-# התקנת התלויות
+WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
-
-# העתקת כל שאר הקבצים ובניית הקוד לתיקיית dist
 COPY . .
-RUN npm run build
-
-# הפעלת השרת מתוך dist
-CMD ["node", "dist/index.js"]
+RUN npx prisma generate
+EXPOSE 4000
+CMD ["node", "index.js"]
