@@ -5,17 +5,21 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const bluePlaneIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/34/34627.png',
+  iconUrl: 'https://img.icons8.com/ios-filled/50/0000FF/airplane-take-off.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
   iconSize: [32, 32],
   iconAnchor: [16, 16],
   popupAnchor: [0, -16],
+  shadowSize: [41, 41],
 });
 
 const redPlaneIcon = new L.Icon({
-  iconUrl: 'https://cdn-icons-png.flaticon.com/512/34/34626.png',
+  iconUrl: 'https://img.icons8.com/ios-filled/50/FF0000/airplane-take-off.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
   iconSize: [32, 32],
   iconAnchor: [16, 16],
   popupAnchor: [0, -16],
+  shadowSize: [41, 41],
 });
 
 function App() {
