@@ -4,8 +4,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-# מוסיפים תמיכה ב-OpenSSL legacy provider כדי למנוע ERR_OSSL_EVP_UNSUPPORTED
+
+# <<< השורה הזאת מוודאת שה-build יעבור על OpenSSL-3 בלי שגיאות
 ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN npm run build
 
 # production stage
