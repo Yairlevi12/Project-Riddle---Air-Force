@@ -1,60 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// 1. הגדרת שני אייקונים — כחול לידידותי, אדום לאויב
+const blueIcon = new L.Icon({
+  iconUrl:
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+  shadowUrl:
+    'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const redIcon = new L.Icon({
+  iconUrl:
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  shadowUrl:
+    'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
 
 function App() {
-  // state for inputs
+  // States
   const [friendlyLat, setFriendlyLat] = useState('');
   const [friendlyLng, setFriendlyLng] = useState('');
   const [threatLat, setThreatLat] = useState('');
   const [threatLng, setThreatLng] = useState('');
   const [speed, setSpeed] = useState('');
   const [radius, setRadius] = useState('');
-  // state for results & operations
   const [result, setResult] = useState(null);
   const [operations, setOperations] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  // real-time calculation whenever יש את כל הערכים
+  // חישוב בזמן אמת
   useEffect(() => {
     if (
-      friendlyLat && friendlyLng &&
-      threatLat && threatLng &&
-      speed && radius
+      friendlyLat &&
+      friendlyLng &&
+      threatLat &&
+      threatLng &&
+      speed &&
+      radius
     ) {
-      axios.post('http://localhost:4000/api/calculate', {
+      axios
+        .post('http://localhost:4000/api/calculate', {
+          friendlyLat: parseFloat(friendlyLat),
+          friendlyLng: parseFloat(friendlyLng),
+          threatLat: parseFloat(threatLat),
+          threatLng: parseFloat(threatLng),
+          speed: parseFloat(speed),
+          radius: parseFloat(radius),
+        })
+        .then((res) => setResult(res.data))
+        .catch(console.error);
+    }
+  }, [friendlyLat, friendlyLng, threatLat, threatLng, speed, radius]);
+
+  // שמירה למסד
+  const handleSave = () => {
+    if (!result) return;
+    axios
+      .post('http://localhost:4000/api/operations', {
         friendlyLat: parseFloat(friendlyLat),
         friendlyLng: parseFloat(friendlyLng),
         threatLat: parseFloat(threatLat),
         threatLng: parseFloat(threatLng),
         speed: parseFloat(speed),
         radius: parseFloat(radius),
+        distance: result.distance,
+        inRange: result.inRange,
+        closingTime: result.closingTime,
       })
-      .then(res => setResult(res.data))
+      .then((res) => setOperations((prev) => [...prev, res.data]))
       .catch(console.error);
-    }
-  }, [friendlyLat, friendlyLng, threatLat, threatLng, speed, radius]);
-
-  // שמירת תוצאת החישוב למסד
-  const handleSave = () => {
-    if (!result) return;
-    axios.post('http://localhost:4000/api/operations', {
-      ...result,
-      friendlyLat: parseFloat(friendlyLat),
-      friendlyLng: parseFloat(friendlyLng),
-      threatLat: parseFloat(threatLat),
-      threatLng: parseFloat(threatLng),
-      speed: parseFloat(speed),
-      radius: parseFloat(radius),
-    })
-    .then(res => setOperations(prev => [...prev, res.data]))
-    .catch(console.error);
   };
 
-  // ייבוא נתונים קיימים מהמסד
+  // ייבוא מהמסד
   const openModal = () => {
-    axios.get('http://localhost:4000/api/operations')
-      .then(res => {
+    axios
+      .get('http://localhost:4000/api/operations')
+      .then((res) => {
         setOperations(res.data);
         setShowModal(true);
       })
@@ -64,45 +96,48 @@ function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1>Golden Route Threat Monitoring</h1>
+
+      {/* קלטים */}
       <div>
         <input
           type="number"
-          placeholder="נקודות ידידותי Lat"
+          placeholder="Friendly Lat"
           value={friendlyLat}
-          onChange={e => setFriendlyLat(e.target.value)}
+          onChange={(e) => setFriendlyLat(e.target.value)}
         />
         <input
           type="number"
-          placeholder="נקודות ידידותי Lng"
+          placeholder="Friendly Lng"
           value={friendlyLng}
-          onChange={e => setFriendlyLng(e.target.value)}
+          onChange={(e) => setFriendlyLng(e.target.value)}
         />
         <input
           type="number"
-          placeholder="נקודות איום Lat"
+          placeholder="Threat Lat"
           value={threatLat}
-          onChange={e => setThreatLat(e.target.value)}
+          onChange={(e) => setThreatLat(e.target.value)}
         />
         <input
           type="number"
-          placeholder="נקודות איום Lng"
+          placeholder="Threat Lng"
           value={threatLng}
-          onChange={e => setThreatLng(e.target.value)}
+          onChange={(e) => setThreatLng(e.target.value)}
         />
         <input
           type="number"
-          placeholder="מהירות (km/h)"
+          placeholder="Speed (km/h)"
           value={speed}
-          onChange={e => setSpeed(e.target.value)}
+          onChange={(e) => setSpeed(e.target.value)}
         />
         <input
           type="number"
-          placeholder="רדיוס (km)"
+          placeholder="Radius (km)"
           value={radius}
-          onChange={e => setRadius(e.target.value)}
+          onChange={(e) => setRadius(e.target.value)}
         />
       </div>
-      {/* כפתורי שמירה וייבוא */}
+
+      {/* כפתורים */}
       <div style={{ marginTop: 10 }}>
         <button onClick={handleSave}>שמור</button>
         <button onClick={openModal}>ייבוא נתונים</button>
@@ -111,20 +146,32 @@ function App() {
       {/* תצוגת מפה ותוצאות */}
       {result && (
         <div style={{ marginTop: 20 }}>
-          <p>מרחק: {result.distance.toFixed(2)} km</p>
+          <p>Distance: {result.distance.toFixed(2)} km</p>
           <p>
             {result.inRange
-              ? `בסכנה! זמן הסגירה: ${result.closingTime.toFixed(2)} שעות`
-              : 'אין איום בטווח'}
+              ? `In Range! Closing time: ${result.closingTime.toFixed(2)} h`
+              : 'No Threat In Range'}
           </p>
+
           <MapContainer
             center={[friendlyLat, friendlyLng]}
             zoom={6}
             style={{ height: 300, width: '100%' }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[friendlyLat, friendlyLng]} />
-            <Marker position={[threatLat, threatLng]} />
+
+            {/* Friendly marker בכחול */}
+            <Marker
+              position={[friendlyLat, friendlyLng]}
+              icon={blueIcon}
+            />
+
+            {/* Threat marker באדום */}
+            <Marker
+              position={[threatLat, threatLng]}
+              icon={redIcon}
+            />
+
             {result.inRange && (
               <Circle
                 center={[threatLat, threatLng]}
@@ -138,11 +185,12 @@ function App() {
       {/* מודאל להצגת פעולות */}
       {showModal && (
         <div className="modal">
-          <h2>פעולות שמורות</h2>
+          <h2>Saved Operations</h2>
           <ul>
-            {operations.map(op => (
+            {operations.map((op) => (
               <li key={op.id}>
-                {`[${new Date(op.createdAt).toLocaleString()}] Distance: ${op.distance.toFixed(2)} km`}
+                [{new Date(op.createdAt).toLocaleString()}] Distance:{' '}
+                {op.distance.toFixed(2)} km
               </li>
             ))}
           </ul>
