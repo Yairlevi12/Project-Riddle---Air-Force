@@ -1,26 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
-import L from 'leaflet';
+import { MapContainer, TileLayer, CircleMarker, Circle } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
-const bluePlaneIcon = new L.Icon({
-  iconUrl: 'https://img.icons8.com/ios-filled/50/0000FF/airplane-take-off.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
-  popupAnchor: [0, -16],
-  shadowSize: [41, 41],
-});
-
-const redPlaneIcon = new L.Icon({
-  iconUrl: 'https://img.icons8.com/ios-filled/50/FF0000/airplane-take-off.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
-  popupAnchor: [0, -16],
-  shadowSize: [41, 41],
-});
 
 function App() {
   const [friendlyLat, setFriendlyLat] = useState('');
@@ -143,10 +124,26 @@ function App() {
             style={{ height: 300, width: '100%' }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker position={[friendlyLat, friendlyLng]} icon={bluePlaneIcon} />
-            <Marker position={[threatLat, threatLng]} icon={redPlaneIcon} />
+
+            {/* סימון ידידותי: עיגול כחול */}
+            <CircleMarker
+              center={[friendlyLat, friendlyLng]}
+              pathOptions={{ color: 'blue' }}
+              radius={8}
+            />
+
+            {/* סימון איום: עיגול אדום */}
+            <CircleMarker
+              center={[threatLat, threatLng]}
+              pathOptions={{ color: 'red' }}
+              radius={8}
+            />
+
             {result.inRange && (
-              <Circle center={[threatLat, threatLng]} radius={radius * 1000} />
+              <Circle
+                center={[threatLat, threatLng]}
+                radius={radius * 1000}
+              />
             )}
           </MapContainer>
         </div>
