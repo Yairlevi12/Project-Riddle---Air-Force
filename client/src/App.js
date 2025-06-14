@@ -4,31 +4,21 @@ import { MapContainer, TileLayer, Marker, Circle } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// 1. הגדרת שני אייקונים — כחול לידידותי, אדום לאויב
-const blueIcon = new L.Icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-  shadowUrl:
-    'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+const bluePlaneIcon = new L.Icon({
+  iconUrl: 'https://img.icons8.com/color/48/0000FF/airplane-take-off.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -16],
 });
 
-const redIcon = new L.Icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-  shadowUrl:
-    'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+const redPlaneIcon = new L.Icon({
+  iconUrl: 'https://img.icons8.com/color/48/FF0000/airplane-take-off.png',
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -16],
 });
 
 function App() {
-  // States
   const [friendlyLat, setFriendlyLat] = useState('');
   const [friendlyLng, setFriendlyLng] = useState('');
   const [threatLat, setThreatLat] = useState('');
@@ -39,7 +29,6 @@ function App() {
   const [operations, setOperations] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  // חישוב בזמן אמת
   useEffect(() => {
     if (
       friendlyLat &&
@@ -63,7 +52,6 @@ function App() {
     }
   }, [friendlyLat, friendlyLng, threatLat, threatLng, speed, radius]);
 
-  // שמירה למסד
   const handleSave = () => {
     if (!result) return;
     axios
@@ -82,7 +70,6 @@ function App() {
       .catch(console.error);
   };
 
-  // ייבוא מהמסד
   const openModal = () => {
     axios
       .get('http://localhost:4000/api/operations')
@@ -96,8 +83,6 @@ function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1>Golden Route Threat Monitoring</h1>
-
-      {/* קלטים */}
       <div>
         <input
           type="number"
@@ -136,14 +121,10 @@ function App() {
           onChange={(e) => setRadius(e.target.value)}
         />
       </div>
-
-      {/* כפתורים */}
       <div style={{ marginTop: 10 }}>
         <button onClick={handleSave}>שמור</button>
         <button onClick={openModal}>ייבוא נתונים</button>
       </div>
-
-      {/* תצוגת מפה ותוצאות */}
       {result && (
         <div style={{ marginTop: 20 }}>
           <p>Distance: {result.distance.toFixed(2)} km</p>
@@ -152,26 +133,17 @@ function App() {
               ? `In Range! Closing time: ${result.closingTime.toFixed(2)} h`
               : 'No Threat In Range'}
           </p>
-
           <MapContainer
             center={[friendlyLat, friendlyLng]}
             zoom={6}
             style={{ height: 300, width: '100%' }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-            {/* Friendly marker בכחול */}
             <Marker
               position={[friendlyLat, friendlyLng]}
-              icon={blueIcon}
+              icon={bluePlaneIcon}
             />
-
-            {/* Threat marker באדום */}
-            <Marker
-              position={[threatLat, threatLng]}
-              icon={redIcon}
-            />
-
+            <Marker position={[threatLat, threatLng]} icon={redPlaneIcon} />
             {result.inRange && (
               <Circle
                 center={[threatLat, threatLng]}
@@ -181,8 +153,6 @@ function App() {
           </MapContainer>
         </div>
       )}
-
-      {/* מודאל להצגת פעולות */}
       {showModal && (
         <div className="modal">
           <h2>Saved Operations</h2>
