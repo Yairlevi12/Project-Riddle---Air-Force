@@ -1,14 +1,13 @@
-FROM node:14
-
+FROM node:18
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# התקנת התלויות
+COPY package*.json ./
 RUN npm install
 
+# העתקת כל שאר הקבצים ובניית הקוד ל-dist
 COPY . .
-
 RUN npm run build
 
-EXPOSE 4000
-
-CMD ["npm", "run", "start"]
+# הפעלת השרת מתוך התיקייה dist
+CMD ["node", "dist/index.js"]
