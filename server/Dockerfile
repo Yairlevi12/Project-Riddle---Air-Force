@@ -1,22 +1,29 @@
+# Base image
 FROM node:18
 
-# עבודה בתיקיית אֶפְּלוּצֶיה של השרת
+# עבודה בתיקיית השרת
 WORKDIR /usr/src/app
 
-# העתקת תלויות
+# העתקת package.json ו־package-lock.json כדי לנצל cache
 COPY package*.json ./
 
-# התקנת תלויות רגילות + dev (כולל typescript ו־ts-node)
+# התקנת התלויות (כולל Prisma)
 RUN npm install
 
-# התקנת ts-node גלובלי כדי להריץ .ts ישירות
-RUN npm install -g typescript ts-node
+# העתקת סכמת Prisma כדי שנוכל להריץ generate
+COPY prisma ./prisma
 
-# העתקת שאר הקוד
+# יצירת ה־Prisma Client
+RUN npx prisma generate
+
+# העתקת כל שאר הקוד
 COPY . .
+
+# התקנת ts-node ו־TypeScript גלובלית
+RUN npm install -g typescript ts-node
 
 # חשיפת הפורט
 EXPOSE 4000
 
-# הרצת הקוד ישירות עם ts-node
+# הרצת השרת ישירות על הקבצים של TypeScript
 CMD ["ts-node", "src/index.ts"]
