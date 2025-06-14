@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 
@@ -8,44 +8,67 @@ app.use(express.json());
 
 const prisma = new PrismaClient();
 
-// Helper: calculate distance (Haversine)
-function toRad(value: number) {
-  return (value * Math.PI) / 180;
-}
-
-function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-  const R = 6371; // km
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
+// חישוב מרחק וסגירה
+const toRad = Math.PI / 180;
+function distance(lat1, lon1, lat2, lon2) {
+  const dLat = (lat2 - lat1) * toRad;
+  const dLon = (lon2 - lon1) * toRad;
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c * 1000; // in meters
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * toRad) *
+      Math.cos(lat2 * toRad) *
+      Math.sin(dLon / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-app.post('/api/calculate', async (req: Request, res: Response) => {
-  const { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius } = req.body;
-  const distance = haversineDistance(friendlyLat, friendlyLng, threatLat, threatLng);
-  const withinThreat = distance <= radius;
-  const closureTime = speed > 0 ? distance / speed : null;
-
-  res.json({ distance, withinThreat, closureTime });
+app.post('/api/calculate', async (req, res) => {
+  const { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius } =
+    req.body;
+  const dist = distance(
+    friendlyLat,
+    friendlyLng,
+    threatLat,
+    threatLng
+  );
+  const inRange = dist <= radius;
+  const closingTime = inRange ? dist / speed : null;
+  res.json({ distance: dist, inRange, closingTime });
 });
 
-app.post('/api/save', async (req: Request, res: Response) => {
-  const { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius } = req.body;
-  const operation = await prisma.operation.create({
-    data: { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius }
+app.post('/api/operations', async (req, res) => {
+  const {
+    friendlyLat,
+    friendlyLng,
+    threatLat,
+    threatLng,
+    speed,
+    radius,
+    distance,
+    inRange,
+    closingTime,
+  } = req.body;
+  const op = await prisma.operation.create({
+    data: {
+      friendlyLat,
+      friendlyLng,
+      threatLat,
+      threatLng,
+      speed,
+      radius,
+      distance,
+      inRange,
+      closingTime,
+    },
   });
-  res.json(operation);
+  res.json(op);
 });
 
-app.get('/api/operations', async (_req: Request, res: Response) => {
-  const operations = await prisma.operation.findMany({ orderBy: { timestamp: 'desc' } });
-  res.json(operations);
+app.get('/api/operations', async (req, res) => {
+  const ops = await prisma.operation.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+  res.json(ops);
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
