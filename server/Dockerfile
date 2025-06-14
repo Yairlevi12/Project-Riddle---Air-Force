@@ -5,9 +5,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# העתקת כל שאר הקבצים ובניית הקוד ל-dist
+# העתקת כל שאר הקבצים ובניית הקוד לתיקיית dist
 COPY . .
 RUN npm run build
 
-# הפעלת השרת מתוך התיקייה dist
+# הפעלת השרת מתוך dist
 CMD ["node", "dist/index.js"]
