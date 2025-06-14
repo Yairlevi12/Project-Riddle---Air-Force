@@ -5,14 +5,14 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const bluePlaneIcon = new L.Icon({
-  iconUrl: 'https://img.icons8.com/color/48/0000FF/airplane-take-off.png',
+  iconUrl: 'https://img.icons8.com/fluency-systems-filled/48/0000FF/airplane.png',
   iconSize: [32, 32],
   iconAnchor: [16, 16],
   popupAnchor: [0, -16],
 });
 
 const redPlaneIcon = new L.Icon({
-  iconUrl: 'https://img.icons8.com/color/48/FF0000/airplane-take-off.png',
+  iconUrl: 'https://img.icons8.com/fluency-systems-filled/48/FF0000/airplane.png',
   iconSize: [32, 32],
   iconAnchor: [16, 16],
   popupAnchor: [0, -16],
@@ -139,16 +139,10 @@ function App() {
             style={{ height: 300, width: '100%' }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <Marker
-              position={[friendlyLat, friendlyLng]}
-              icon={bluePlaneIcon}
-            />
+            <Marker position={[friendlyLat, friendlyLng]} icon={bluePlaneIcon} />
             <Marker position={[threatLat, threatLng]} icon={redPlaneIcon} />
             {result.inRange && (
-              <Circle
-                center={[threatLat, threatLng]}
-                radius={radius * 1000}
-              />
+              <Circle center={[threatLat, threatLng]} radius={radius * 1000} />
             )}
           </MapContainer>
         </div>
