@@ -10,7 +10,7 @@ Under the hood, the back end uses TypeScript, Express, and Prisma, while the fro
 
 ## What’s Inside
 
-Here’s what you’ll find when you dive in:
+inside the system there is:
 
 * **A Friendly Front-End (React)**
   Jump right in—pop in your coordinates, hit ‘Analyze’, and watch the path unfold on a live map.
