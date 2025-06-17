@@ -65,5 +65,3 @@ Here’s what you’ll find when you dive in:
 * Want to extend? Add new endpoints in `server/src/routes`, then connect them in the front-end under `client/src/api`.
 
 ---
-
-Thanks for checking this out! If you run into any issues or have ideas on how to make things better, drop an issue in the repo or shoot me a message.
