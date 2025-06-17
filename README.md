@@ -12,18 +12,17 @@ Under the hood, the back end uses TypeScript, Express, and Prisma, while the fro
 
 inside the system there is:
 
-* **A Friendly Front-End (React)**
-  Jump right in—pop in your coordinates, hit ‘Analyze’, and watch the path unfold on a live map.
+* ** Frontend – React
+A clean interface where users enter their start and end points and see their route on a live map.
 
-* **Powerful API Engine (Express + Prisma)**
-  Behind the scenes, our server crunches the numbers, logs every request, and keeps everything humming along.
+* ** Backend – Express & Prisma
+Handles every request, runs the routing logic, and keeps track of all activity.
 
-* **Dependable Database (PostgreSQL)**
-  Think of it as a trusty notebook: Prisma makes sure each entry is neat, tidy, and always ready when you need it.
+* ** Database – PostgreSQL
+Safely stores locations, results, and statistics, with Prisma ensuring everything stays organized.
 
-* **One-Command Docker Launch**
-  No more fiddling with installs—`docker-compose up` gets everything running in one go.
-
+* ** Docker Compose
+A configuration tool that uses a docker-compose.yml file to define and run all three services (frontend, backend, database) together as containers—automatically building images, setting up networks, and ensuring they start in the right order with a single command.
 ## Getting Started
 
 1. **Clone the repo**
@@ -44,11 +43,6 @@ inside the system there is:
    * Front-end: [http://localhost:3000](http://localhost:3000)
    * API:        [http://localhost:4000](http://localhost:4000)
 
-## Quick Tour
-
-* **Add a Check**: Enter your starting and ending coordinates, then hit ‘Analyze.’
-* **Map View**: Instantly see the path displayed on the map.
-* **History Log**: Every check you run gets saved—and you can browse through past operations anytime.
 
 ## Tech Stack
 
