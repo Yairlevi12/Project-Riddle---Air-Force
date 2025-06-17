@@ -1,4 +1,4 @@
-# # Threat Monitoring Dashboard
+#  Threat Monitoring Dashboard
 
 The Golden Route system is tailored for decision-makers who need real-time insights into potential aerial threats. It lets you:
 
