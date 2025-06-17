@@ -38,7 +38,7 @@ A configuration tool that uses a docker-compose.yml file to define and run all t
    docker-compose up --build
    ```
 
-3. **Enjoy!**
+3. **Enjoy visiting the system**
 
    * Front-end: [http://localhost:3000](http://localhost:3000)
    * API:        [http://localhost:4000](http://localhost:4000)
