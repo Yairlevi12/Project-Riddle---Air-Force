@@ -12,16 +12,16 @@ Under the hood, the back end uses TypeScript, Express, and Prisma, while the fro
 
 inside the system there is:
 
-* ** Frontend – React
+*  Frontend – React
 A clean interface where users enter their start and end points and see their route on a live map.
 
-* ** Backend – Express & Prisma
+*  Backend – Express & Prisma
 Handles every request, runs the routing logic, and keeps track of all activity.
 
-* ** Database – PostgreSQL
+  * Database – PostgreSQL
 Safely stores locations, results, and statistics, with Prisma ensuring everything stays organized.
 
-* ** Docker Compose
+* Docker Compose
 A configuration tool that uses a docker-compose.yml file to define and run all three services (frontend, backend, database) together as containers—automatically building images, setting up networks, and ensuring they start in the right order with a single command.
 ## Getting Started
 
