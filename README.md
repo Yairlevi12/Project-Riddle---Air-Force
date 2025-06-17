@@ -1,42 +1,67 @@
 <<<<<<< HEAD
-# Golden Route Threat Monitoring System
+The Golden Route system is tailored for decision-makers who need real-time insights into potential aerial threats. It lets you:
 
-Full-stack threat monitoring solution for the “חידת נתיב הזהב” challenge:
+Input Coordinates: Enter a location where an aircraft might originate.
 
-* **Front-end (React)**
-  Intuitive interface for entering coordinates, executing calculations, and visualizing results on an interactive map.
+Set a Maximum Flight Radius: Define how far out you want the system to look for aircraft.
 
-* **Back-end (Express + Prisma)**
-  Robust API layer performing trajectory analysis, persisting each operation in PostgreSQL via Prisma ORM, and exposing secure endpoints.
+Calculate Threat Range: See instantly whether any aircraft fall within that distance.
 
-* **Database (PostgreSQL)**
-  Well-defined Prisma schema ensuring data integrity and optimized storage.
+Under the hood, the back end uses TypeScript, Express, and Prisma, while the front end runs on Vite and React. Everything is containerized with Docker, so deployment is as simple as docker-compose up.
 
-* **Containerized (Docker & Docker Compose)**
-  End-to-end Docker configuration—simply clone the repository and run `docker-compose up` to launch the entire stack without additional setup.
-## Project Structure
+What’s Inside
 
-\`\`\`
-golden_route_project/
-├── client/                # React front-end
-├── server/                # Express back-end
-├── docker-compose.yml     # Docker Compose to run services
-├── README.md
-└── ...
-\`\`\`
+Here’s what you’ll find when you dive in:
 
-## Prerequisites
+A Friendly Front-End (React)Jump right in—pop in your coordinates, hit ‘Analyze’, and watch the path unfold on a live map.
 
-- Docker and Docker Compose installed on my system.
+Powerful API Engine (Express + Prisma)Behind the scenes, our server crunches the numbers, logs every request, and keeps everything humming along.
 
-## Setup and Run
+Dependable Database (PostgreSQL)Think of it as a trusty notebook: Prisma makes sure each entry is neat, tidy, and always ready when you need it.
 
-1. Clone the repository (or download the files).
-2. Navigate to the project directory.
-3. Run \`docker-compose up --build\`.
-4. The front-end will be available at \`http://localhost:3000\`.
-5. The back-end API will be available at \`http://localhost:4000\`.
-6. Access the React app, input coordinates, calculate threat status, view on map, and save operations.
+One-Command Docker LaunchNo more fiddling with installs—docker-compose up gets everything running in one go.
 
-eact/Node.js application with PostgreSQL and Docker
->>>>>>> 6b174177cab410abe49b1a5fad80f933ea4c71eb
+Getting Started
+
+Clone the repo
+
+git clone https://github.com/Yairlevi12/Project-Riddle---Air-Force.git
+cd Project-Riddle---Air-Force
+
+Launch everything
+
+docker-compose up --build
+
+Enjoy!
+
+Front-end: http://localhost:3000
+
+API:        http://localhost:4000
+
+Quick Tour
+
+Add a Check: Enter your starting and ending coordinates, then hit ‘Analyze.’
+
+Map View: Instantly see the path displayed on the map.
+
+History Log: Every check you run gets saved—and you can browse through past operations anytime.
+
+Tech Stack
+
+React for crisp, responsive UI
+
+Express to power API routes
+
+Prisma ORM for type-safe database interactions
+
+PostgreSQL as our data store
+
+Docker & Docker Compose for one-step setup
+
+Tips & Tricks
+
+Feel free to tweak the Docker Compose file if you need custom ports or volumes.
+
+The Prisma schema lives in server/prisma/schema.prisma—play around with it if you’re curious!
+
+Want to extend? Add new endpoints in server/src/routes, then connect them in the front-end under client/src/api.
