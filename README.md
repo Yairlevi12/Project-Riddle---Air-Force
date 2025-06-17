@@ -58,10 +58,5 @@ Here’s what you’ll find when you dive in:
 * **PostgreSQL** as our data store
 * **Docker & Docker Compose** for one-step setup
 
-## Tips & Tricks
-
-* Feel free to tweak the Docker Compose file if you need custom ports or volumes.
-* The Prisma schema lives in `server/prisma/schema.prisma`—play around with it if you’re curious!
-* Want to extend? Add new endpoints in `server/src/routes`, then connect them in the front-end under `client/src/api`.
 
 ---
