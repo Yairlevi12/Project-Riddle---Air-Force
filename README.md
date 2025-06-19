@@ -53,4 +53,7 @@ A configuration tool that uses a docker-compose.yml file to define and run all t
 * **Docker & Docker Compose** for one-step setup
 
 
+ ## An illustrative snapshot of the real-time threat monitoring interface.
+![image](https://github.com/user-attachments/assets/a4139ccb-85f4-4c28-9f8c-2e9acedd8741)
+
 ---
