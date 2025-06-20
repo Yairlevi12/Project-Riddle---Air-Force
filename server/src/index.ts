@@ -1,12 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
+import planesRouter from './routes/planes';  // <-- הוספת ה-router
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 const prisma = new PrismaClient();
+
+// הרכבת ה-planesRouter תחת הנתיב /api/planes
+app.use('/api/planes', planesRouter);
 
 // פונקציית המרת רדיוסים ושיטת Haversine
 const toRad = Math.PI / 180;
@@ -21,6 +25,7 @@ function distance(lat1: number, lon1: number, lat2: number, lon2: number) {
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
+// חישוב מרחק וסגירת זמן (calculate)
 app.post('/api/calculate', async (req, res) => {
   const { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius } = req.body;
   const dist = distance(friendlyLat, friendlyLng, threatLat, threatLng);
@@ -29,6 +34,7 @@ app.post('/api/calculate', async (req, res) => {
   res.json({ distance: dist, inRange, closingTime });
 });
 
+// שמירת אופרציה בבסיס (operations)
 app.post('/api/operations', async (req, res) => {
   const { friendlyLat, friendlyLng, threatLat, threatLng, speed, radius } = req.body;
   const dist = distance(friendlyLat, friendlyLng, threatLat, threatLng);
@@ -51,10 +57,12 @@ app.post('/api/operations', async (req, res) => {
   res.json(op);
 });
 
+// שליפת כל האופרציות
 app.get('/api/operations', async (_req, res) => {
   const ops = await prisma.operation.findMany({ orderBy: { createdAt: 'desc' } });
   res.json(ops);
 });
 
+// מאזינים בפורט
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
