@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import planesRouter from './routes/planes';  // <-- הוספת ה-router
+
+import planesRouter from './routes/planes';  // <-- חיבור ה-router החדש
 
 const app = express();
 app.use(cors());
@@ -9,7 +10,7 @@ app.use(express.json());
 
 const prisma = new PrismaClient();
 
-// הרכבת ה-planesRouter תחת הנתיב /api/planes
+// חיבור ה-planesRouter תחת הנתיב /api/planes
 app.use('/api/planes', planesRouter);
 
 // פונקציית המרת רדיוסים ושיטת Haversine
