@@ -5,6 +5,8 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  // הוסף פה:
+  binaryTargets = ["native"]
 }
 
 model Operation {
@@ -18,5 +20,5 @@ model Operation {
   distance    Float
   inRange     Boolean
   closingTime Float?
-  createdAt   DateTime @default(now()) 
+  createdAt   DateTime @default(now())
 }
